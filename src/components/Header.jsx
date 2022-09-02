@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import AboutIconLink from './AboutIconLink';
 import PropTypes from 'prop-types';
 
 const Header = ({ text, bgColor, textColor }) => {
@@ -9,8 +11,11 @@ const Header = ({ text, bgColor, textColor }) => {
   return (
     <header style={headerStyle}>
       <div className='container'>
-        <h2>{text}</h2>
+        <Link to='/' style={{ textDecoration: 'none', color: textColor }}>
+          <h2>{text}</h2>
+        </Link>
       </div>
+      <AboutIconLink />
     </header>
   );
 };
