@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import { FeedbackProvider } from './context/FeedbackContext';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root')!);
 root.render(
   <FeedbackProvider>
     <React.StrictMode>

@@ -1,15 +1,25 @@
-import { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
+import { FeedbackContextType, IFeedback } from '../@types/feedback';
 
-const FeedbackContext = createContext();
+const FeedbackContext = createContext<FeedbackContextType | null>(null);
 
-const defaultEditState = {
-  item: {},
+interface IEditState {
+  item: IFeedback;
+  isEditing: boolean;
+}
+
+const defaultEditState: IEditState = {
+  item: {} as IFeedback,
   isEditing: false,
 };
 
-export const FeedbackProvider = ({ children }) => {
+interface Props {
+  children: React.ReactNode;
+}
+
+export const FeedbackProvider = ({ children }: Props) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [feedback, setFeedback] = useState([]);
+  const [feedback, setFeedback] = useState<IFeedback[]>([]);
   const [editMode, setEditMode] = useState(defaultEditState);
 
   useEffect(() => {
@@ -32,7 +42,7 @@ export const FeedbackProvider = ({ children }) => {
   };
 
   // Delete feedback
-  const deleteFeedback = async (id) => {
+  const deleteFeedback = async (id: number) => {
     if (window.confirm('Are you sure you want to delete?')) {
       try {
         await fetch(`/feedback/${id}`, {
@@ -46,9 +56,8 @@ export const FeedbackProvider = ({ children }) => {
   };
 
   // Add feedback
-  const addFeedback = async (newFeedback) => {
+  const addFeedback = async (newFeedback: IFeedback) => {
     try {
-      // newFeedback.id = uuidv4();
       const res = await fetch('/feedback', {
         method: 'POST',
         body: JSON.stringify(newFeedback),
@@ -64,7 +73,7 @@ export const FeedbackProvider = ({ children }) => {
   };
 
   // Set item to be updated
-  const editFeedback = (item) => {
+  const editFeedback = (item: IFeedback) => {
     setEditMode({
       item,
       isEditing: true,
@@ -72,7 +81,7 @@ export const FeedbackProvider = ({ children }) => {
   };
 
   // Update existing feedback
-  const updateFeedback = async (updatedItem) => {
+  const updateFeedback = async (updatedItem: IFeedback) => {
     try {
       const res = await fetch(`/feedback/${editMode.item.id}`, {
         method: 'PUT',
@@ -84,7 +93,7 @@ export const FeedbackProvider = ({ children }) => {
       const data = await res.json();
 
       setFeedback(
-        feedback.map((item) =>
+        feedback.map((item: IFeedback) =>
           item.id === editMode.item.id ? { ...item, ...data } : item
         )
       );

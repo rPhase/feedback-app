@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { FeedbackContextType } from '../@types/feedback';
 import FeedbackContext from '../context/FeedbackContext';
 import RatingSelect from './RatingSelect';
 import Button from './shared/Button';
@@ -9,11 +10,13 @@ const MIN_LENGTH = 0;
 const DEFAULT_RATING = 7;
 
 const FeedbackForm = () => {
-  const { addFeedback, editMode, updateFeedback } = useContext(FeedbackContext);
+  const { addFeedback, editMode, updateFeedback } = useContext(
+    FeedbackContext
+  ) as FeedbackContextType;
   const [text, setText] = useState('');
   const [rating, setRating] = useState(DEFAULT_RATING);
   const [btnDisabled, setBtnDisabled] = useState(MIN_LENGTH > 0); //disable button by default if MIN_LENGTH is 0
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState<string | null>('');
 
   useEffect(() => {
     if (editMode.isEditing) {
@@ -23,7 +26,9 @@ const FeedbackForm = () => {
     }
   }, [editMode]);
 
-  const onChangeHandler = ({ target: { value } }) => {
+  const onChangeHandler = ({
+    target: { value },
+  }: React.ChangeEvent<HTMLInputElement>) => {
     const len = value.trim().length;
     if (value.trim() === '' && MIN_LENGTH !== 0) {
       setBtnDisabled(true);
@@ -42,7 +47,7 @@ const FeedbackForm = () => {
     setText(value);
   };
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
     const newFeedback = {

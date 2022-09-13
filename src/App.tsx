@@ -1,8 +1,8 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import FeedbackList from './components/FeedbackList';
-import Header from './components/Header';
-import FeedbackStats from './components/FeedbackStats';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import FeedbackForm from './components/FeedbackForm';
+import FeedbackList from './components/FeedbackList';
+import FeedbackStats from './components/FeedbackStats';
+import Header from './components/Header';
 import AboutPage from './pages/AboutPage';
 
 function App() {
