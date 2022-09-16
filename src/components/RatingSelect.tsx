@@ -1,10 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 const RATING = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const RatingSelect = ({ onSelect, selected }) => {
-  const onChangeHandler = (e) => {
+interface Props {
+  onSelect: React.Dispatch<React.SetStateAction<number>>;
+  selected: number;
+}
+
+const RatingSelect = ({ onSelect, selected }: Props) => {
+  const onChangeHandler = (e: {
+    currentTarget: { value: string | number };
+  }) => {
     onSelect(+e.currentTarget.value);
   };
 
@@ -25,11 +31,6 @@ const RatingSelect = ({ onSelect, selected }) => {
       ))}
     </ul>
   );
-};
-
-RatingSelect.propTypes = {
-  onSelect: PropTypes.func.isRequired,
-  selected: PropTypes.number.isRequired,
 };
 
 export default RatingSelect;
